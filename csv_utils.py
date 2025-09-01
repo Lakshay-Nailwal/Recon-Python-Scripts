@@ -55,6 +55,67 @@ def save_to_csv(filename, data, headers=None, output_dir=None):
         raise
 
 
+def append_to_csv(filename, data, headers=None, output_dir=None, needLogs=True):
+    """
+    Append row(s) to CSV file.
+    Supports both list of dicts and list of lists/tuples.
+    Auto-picks headers if not provided.
+    """
+    if output_dir is None:
+        output_dir = OUTPUT_DIRECTORY
+
+    os.makedirs(output_dir, exist_ok=True)
+    full_path = os.path.join(output_dir, filename)
+    file_exists = os.path.isfile(full_path)
+
+    try:
+        with open(full_path, 'a', newline='', encoding='utf-8') as csvfile:
+            if isinstance(data, list) and data and isinstance(data[0], dict):
+                # Auto-pick headers from dict keys
+                if headers is None:
+                    headers = list(data[0].keys())
+
+                sanitized_data = [
+                    {k: v for k, v in row.items() if k.strip() != ''}
+                    for row in data
+                ]
+
+                writer = csv.DictWriter(csvfile, fieldnames=headers)
+
+                # If file does not exist, write headers first
+                if not file_exists:
+                    writer.writeheader()
+
+                writer.writerows(sanitized_data)
+
+            else:
+                # Handle list of lists/tuples
+                if headers is None and data:
+                    headers = [f"col{i+1}" for i in range(len(data[0]))]
+
+                writer = csv.writer(csvfile)
+
+                # If file does not exist, write headers first
+                if not file_exists and headers:
+                    writer.writerow(headers)
+
+                if data and isinstance(data[0], (list, tuple)):
+                    writer.writerows(data)   # multiple rows
+                else:
+                    writer.writerow(data)    # single row
+
+        if needLogs:
+            print(f"✅ Data appended to: {full_path}")
+            rows_added = len(data) if isinstance(data, list) else 1
+            print(f"Rows appended: {rows_added}")
+
+        return full_path
+
+    except Exception as e:
+        print(f"❌ Error appending to CSV file: {e}")
+        raise
+
+
 # Example usage
 if __name__ == "__main__":
     # Case 1: list of dicts (headers auto from keys)
