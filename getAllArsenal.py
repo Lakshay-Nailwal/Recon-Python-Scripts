@@ -5,11 +5,13 @@ import os
 load_dotenv('config.env')
 
 def getAllArsenal():
-    connection = create_db_connection(os.getenv('MERCURY_DB'))
+    connection = create_db_connection("mercury")
     cursor = connection.cursor()
-    cursor.execute("SELECT * FROM arsenal WHERE is_setup = 1 order by tenant;")
+    cursor.execute("SELECT tenant FROM arsenal WHERE is_setup = 1 order by tenant;")
     result = cursor.fetchall()
-    return result
+    cursor.close()
+    connection.close()  
+    return [row[0] for row in result]
 
 if __name__ == "__main__":
     allTenant = getAllArsenal()

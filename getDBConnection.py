@@ -8,7 +8,7 @@ load_dotenv('config.env')
 def create_db_connection(db_name):
     try:
         
-        DB_NAME = db_name.upper()
+        DB_NAME = str(db_name).upper()
         config_dict = {}
         config_dict = json.loads(os.getenv(f"{DB_NAME}_DB_CONFIG", "{}"))
         if config_dict == {}:

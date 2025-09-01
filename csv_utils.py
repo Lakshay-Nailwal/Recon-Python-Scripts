@@ -68,6 +68,13 @@ def append_to_csv(filename, data, headers=None, output_dir=None, needLogs=True):
     full_path = os.path.join(output_dir, filename)
     file_exists = os.path.isfile(full_path)
 
+    # Normalize data into list form
+    if isinstance(data, dict):
+        data = [data]
+    elif isinstance(data, (list, tuple)) and data and isinstance(data[0], (str, int, float)):
+        # single row like ["a", "b", "c"]
+        data = [list(data)]
+
     try:
         with open(full_path, 'a', newline='', encoding='utf-8') as csvfile:
             if isinstance(data, list) and data and isinstance(data[0], dict):

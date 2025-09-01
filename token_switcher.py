@@ -24,7 +24,7 @@ def fetch_warehouse_id(connection, tenant):
 def switch_token(warehouse_id, tenant , warehouse_type = 'warehouse'):
     url = f'https://wms.mercuryonline.co/api/user/auth/switch/{warehouse_type}/{warehouse_id}'    
     headers = {
-        'Authorization': f'{os.getenv("EPR_TOKEN")}',
+        'Authorization': f'{os.getenv("PROD_TOKEN")}',
         'Content-Type': 'application/json'
     }
     try:
