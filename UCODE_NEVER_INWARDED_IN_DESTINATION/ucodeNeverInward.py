@@ -38,7 +38,7 @@ def getPurchaseIssuesWhereDCisNotGenerated(tenant):
         WHERE pi.status NOT IN ('cancelled', 'DELETED')
         AND pi.partner_detail_id IN ({partner_detail_ids_sql})
         AND (pi.debit_note_number IS NULL OR pi.debit_note_number = '')
-        AND pi.created_on >= '2025-08-01'
+        AND pi.created_on >= '2025-08-26'
     """
     conn = create_db_connection("mercury")
     cursor = conn.cursor()
@@ -59,7 +59,7 @@ def getPurchaseIssuesWhereDCisGenerated(tenant):
         AND pi.partner_detail_id IN ({partner_detail_ids_sql})
         AND pi.debit_note_number IS NOT NULL
         AND pi.debit_note_number != ''
-        AND pi.created_on >= '2025-08-01'
+        AND pi.created_on >= '2025-08-26'
     """
     conn = create_db_connection("mercury")
     cursor = conn.cursor()
