@@ -6,8 +6,8 @@ A collection of Python scripts for database reconciliation and data analysis.
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd ReconScripts
+   git clone git@github.com:Lakshay-Nailwal/Recon-Python-Scripts.git
+   cd Recon-Python-Scripts
    ```
 
 2. **Install dependencies**
@@ -30,7 +30,6 @@ The `config.env` file contains all the necessary configuration for database conn
 
 ### Required Configuration
 
-- `MERCURY_DB`: Database name for mercury database
 - `MERCURY_DB_CONFIG`: JSON configuration for mercury database connection
 - `VAULT_DB_CONFIG`: JSON configuration for vault database connection  
 - `PARTNER_DB_CONFIG`: JSON configuration for partner database connection
