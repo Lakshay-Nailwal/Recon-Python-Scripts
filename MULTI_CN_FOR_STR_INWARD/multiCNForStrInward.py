@@ -36,7 +36,7 @@ def fetchCNsForInwardInvoices(invoiceIdList, tenant):
     placeholders_invoice = ','.join(['%s'] * len(invoiceIdList))
     placeholders_note = ','.join(['%s'] * len(noteTypes))
     sql = f"""
-    SELECT return_order_id, note_type , partner_detail_id , GROUP_CONCAT(debit_note_number SEPARATOR ', ') as debit_note_numbers , GROUP_CONCAT(credit_note_number SEPARATOR ', ') as credit_note_numbers
+    SELECT return_order_id, note_type , partner_detail_id , GROUP_CONCAT(debit_note_number SEPARATOR ', ') as debit_note_numbers , GROUP_CONCAT(credit_note_number SEPARATOR ', ') as credit_note_numbers , COUNT(DISTINCT debit_note_number) as total_debit_note_numbers
     FROM debitnote 
     WHERE return_order_id IN ({placeholders_invoice}) 
     AND note_type IN ({placeholders_note}) 
