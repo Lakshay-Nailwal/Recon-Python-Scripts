@@ -156,6 +156,28 @@ cd STR_CREATED_RETURN_QUANTITY_DIFFERENT
 python3 strCreatedReturnQunatityDifferent.py
 ```
 
+#### `MULTI_CN_FOR_STR_INWARD/`
+**Purpose**: Identifies STR inward invoices with multiple credit/debit notes
+- Analyzes inward invoices for StockTransferReturn and ICSReturn types
+- Detects cases where multiple credit/debit notes are associated with single inward invoice
+- Helps identify potential data inconsistencies in return processing
+
+```bash
+cd MULTI_CN_FOR_STR_INWARD
+python3 multiCNForStrInward.py
+```
+
+#### `NO_CN_FOR_STR_INWARD/`
+**Purpose**: Identifies STR inward invoices without corresponding credit/debit notes
+- Analyzes inward invoices for StockTransferReturn and ICSReturn types
+- Detects missing credit/debit note associations
+- Helps identify incomplete return processing workflows
+
+```bash
+cd NO_CN_FOR_STR_INWARD
+python3 noCNForStrInward.py
+```
+
 ## 📈 Output and Reports
 
 All scripts generate CSV files in their respective `CSV_FILES` directories with detailed analysis results. Reports include:
@@ -185,6 +207,23 @@ Scripts implement efficient database connection management:
 - Error handling for connection failures
 
 ## 🔧 Utility Scripts
+
+### `baseCodeStructureFile.py`
+**Purpose**: Template/base structure for creating new reconciliation scripts
+- Provides standard imports and setup
+- Includes thread-safe CSV writing functionality
+- Contains boilerplate for multi-tenant processing
+- Features configurable batch processing and worker threads
+- **Usage**: Copy this file as a starting point for new reconciliation scripts
+
+```python
+# Key features included:
+- ThreadPoolExecutor setup
+- Thread-safe CSV operations
+- Standard error handling
+- Multi-tenant processing framework
+- Configurable batch sizes and worker counts
+```
 
 ### `csv_utils.py`
 **Purpose**: CSV file manipulation utilities
@@ -289,9 +328,35 @@ To contribute to this project:
 
 1. Fork the repository
 2. Create a feature branch
-3. Add your scripts following the existing pattern
-4. Update this README with new script documentation
-5. Submit a pull request
+3. **Use the base template**: Copy `baseCodeStructureFile.py` as a starting point for new scripts
+4. Add your scripts following the existing pattern
+5. Update this README with new script documentation
+6. Submit a pull request
+
+### 📝 Creating New Reconciliation Scripts
+
+When creating a new reconciliation script:
+
+1. **Copy the base template**:
+   ```bash
+   cp baseCodeStructureFile.py NEW_SCRIPT_NAME.py
+   ```
+
+2. **Customize the template**:
+   - Update the `process_tenant()` function with your specific logic
+   - Modify SQL queries and data processing logic
+   - Adjust batch sizes and worker counts as needed
+   - Add specific error handling for your use case
+
+3. **Follow the naming convention**:
+   - Use descriptive folder names in UPPERCASE
+   - Create a `CSV_FILES/` subdirectory for output
+   - Use consistent naming patterns
+
+4. **Test thoroughly**:
+   - Test with a small subset of tenants first
+   - Verify CSV output format and content
+   - Check error handling scenarios
 
 ## 📄 License
 
