@@ -43,7 +43,7 @@ def fetchCNsForInwardInvoices(invoiceIdList, tenant):
 def fetchInwardInvoicesForTenant(tenant):
     conn = create_db_connection(tenant)
     cursor = conn.cursor(pymysql.cursors.DictCursor)
-    cursor.execute("SELECT id as invoice_id , invoice_no , created_on FROM inward_invoice WHERE purchase_type in ('StockTransferReturn' , 'ICSReturn') and status = 'live' and created_on >= '2025-08-26'")
+    cursor.execute("SELECT id as invoice_id , invoice_no , created_on FROM inward_invoice WHERE purchase_type in ('StockTransferReturn' , 'ICSReturn') and status = 'live' and created_on >= '2025-05-28'")
     inwardInvoices = cursor.fetchall()
     cursor.close()
     conn.close()
