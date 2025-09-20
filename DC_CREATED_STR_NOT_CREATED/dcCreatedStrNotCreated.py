@@ -28,7 +28,7 @@ def fetchDistinctDebitNoteNumbersWithPdi(tenant, pdis):
             FROM purchase_issue pi
             JOIN purchase_issue_item pii ON pii.purchase_issue_id = pi.id
             WHERE pi.debit_note_number IS NOT NULL
-              AND pi.invoice_date >= '2025-08-26'
+              AND pi.invoice_date >= '2025-05-28'
               AND pi.pr_type <> 'REGULAR_EASYSOL'
               AND pi.partner_detail_id IN ({placeholders})
               AND pi.status NOT IN ('cancelled', 'DELETED')

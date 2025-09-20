@@ -15,10 +15,11 @@ CURRENT_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "CS
 CSV_LOCK = Lock()  # Thread-safe CSV writes
 
 SQL_QUERY = """
-    SELECT * 
-    FROM purchase_issue
-    WHERE created_on >= '2025-04-01'
-      AND interstate = 1
+    SELECT distinct pi.debit_note_number
+    FROM purchase_issue pi
+    JOIN purchase_issue_item pii ON pii.purchase_issue_id = pi.id
+    JOIN delivery_challan dc ON dc.dc_number = pi.debit_note_number
+    WHERE pi.invoice_date >= '2025-08-25'
 """
 
 def safe_append_to_csv(filename, rows):
@@ -37,8 +38,8 @@ def runQuery(tenant):
         result = cursor.fetchall()
         if result:
             for r in result:
-                r["tenant"] = tenant   
-            safe_append_to_csv("generalQueryResultV3.csv", result)
+                r["tenant"] = tenant
+            safe_append_to_csv("deliveryChallanNormalInArsenalPRV2.csv", result)
         cursor.close()
         conn.close()
         print(f"✅ Finished tenant: {tenant} ({len(result)} rows)")

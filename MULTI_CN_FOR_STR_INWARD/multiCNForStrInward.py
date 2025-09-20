@@ -42,7 +42,6 @@ def fetchCNsForInwardInvoices(invoiceIdList, tenant):
     AND note_type IN ({placeholders_note}) 
     AND tenant = %s
     GROUP BY return_order_id
-    HAVING COUNT(DISTINCT debit_note_number) > 1
     """
     cursor.execute(sql, invoiceIdList + noteTypes + [tenant])
     cnResult = cursor.fetchall()
@@ -53,9 +52,15 @@ def fetchCNsForInwardInvoices(invoiceIdList, tenant):
 
 def processInwardInvoiceBatch(inwardInvoiceBatch, tenant):
     invoiceIdList = [inwardInvoice["invoice_id"] for inwardInvoice in inwardInvoiceBatch]
+    invoiceIdToInvoiceNoMap = {inwardInvoice["invoice_id"]: inwardInvoice["invoice_no"] for inwardInvoice in inwardInvoiceBatch}
     cnResult = fetchCNsForInwardInvoices(invoiceIdList, tenant)
     for cn in cnResult:
-        safe_append_to_csv("multiCNForStrInward.csv", {"return_order_id": cn["return_order_id"], "note_type": cn["note_type"], "partner_detail_id": cn["partner_detail_id"], "debit_note_numbers": cn["debit_note_numbers"], "credit_note_numbers": cn["credit_note_numbers"], "tenant": tenant})
+        invoice_no = invoiceIdToInvoiceNoMap.get(cn["return_order_id"])
+        if invoice_no:
+            cn["invoice_no"] = invoice_no
+        else:
+            cn["invoice_no"] = ""
+        safe_append_to_csv("multiCNForStrInward.csv", {"return_order_id": cn["return_order_id"], "note_type": cn["note_type"], "partner_detail_id": cn["partner_detail_id"], "debit_note_numbers": cn["debit_note_numbers"], "credit_note_numbers": cn["credit_note_numbers"], "tenant": tenant, "invoice_no": cn["invoice_no"]})
 
 def process_tenant(tenant):
     """Run SQL query for a tenant and save results"""

@@ -28,12 +28,13 @@ def fetchPurchaseIssues(tenant, pdis):
         placeholders = ','.join(['%s'] * len(pdis))
         query = f"""
             SELECT id, partner_detail_id, tray_id, invoice_id, invoice_no,
-                   invoice_sequence_type, pr_type, invoice_date, invoice_tenant, status , debit_note_number
+                   invoice_sequence_type, pr_type, invoice_date, invoice_tenant, status , debit_note_number , created_on , updated_on
             FROM purchase_issue
             WHERE pr_type <> 'REGULAR_EASYSOL'
               AND status not in ('cancelled', 'DELETED')
               AND partner_detail_id IN ({placeholders})
-              AND created_on >= '2025-08-26'
+              AND (invoice_date >= '2025-08-01' || created_on >= '2025-08-01')
+              AND (debit_note_number IS NULL OR debit_note_number = '')
         """
         cursor.execute(query, tuple(pdis))
         return cursor.fetchall()
@@ -75,7 +76,7 @@ def validate_invoice(pi, tenant):
             isInvoiceTenantSame = pi['invoice_tenant'] == tenant
             row = {
                 "dest_tenant": dest_tenant, "source_tenant": tenant, "purchase_issue_id": pi['id'], "invoice_id": pi['invoice_id'], "invoice_no": pi['invoice_no'],
-                "pr_type": pi['pr_type'], "invoice_tenant": pi['invoice_tenant'], "is_invoice_tenant_same": isInvoiceTenantSame, "status": pi['status'] , "debit_note_number": pi['debit_note_number']
+                "pr_type": pi['pr_type'], "invoice_tenant": pi['invoice_tenant'], "is_invoice_tenant_same": isInvoiceTenantSame, "status": pi['status'] , "debit_note_number": pi['debit_note_number'] , "created_on": pi['created_on'] , "updated_on": pi['updated_on']
             }
             with csv_lock:
                 append_to_csv(

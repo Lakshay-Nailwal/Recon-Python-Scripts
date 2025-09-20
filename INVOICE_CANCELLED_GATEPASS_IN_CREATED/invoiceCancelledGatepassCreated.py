@@ -15,10 +15,13 @@ CURRENT_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "CS
 CSV_LOCK = Lock()  # Thread-safe CSV writes
 
 SQL_QUERY = """
-    SELECT * 
-    FROM purchase_issue
-    WHERE created_on >= '2025-04-01'
-      AND interstate = 1
+    SELECT ii.id as inward_invoice_id , ii.invoice_no , ii.created_on , ii.status 
+    , gi.status as gatepass_status , gi.id as gatepass_invoice_id , gi.gatepass_id , ii.total as inward_invoice_total
+    FROM inward_invoice ii join 
+    gatepass_invoice gi on gi.no = ii.invoice_no and gi.gatepass_id = ii.gatepass_id
+    WHERE gi.status <> 'CANCELLED'
+    AND ii.status IN ('CANCELLED' , 'DELETED')
+    AND ii.created_on >= '2025-05-27'
 """
 
 def safe_append_to_csv(filename, rows):
@@ -34,14 +37,20 @@ def runQuery(tenant):
         conn = create_db_connection(tenant)
         cursor = conn.cursor(pymysql.cursors.DictCursor)
         cursor.execute(SQL_QUERY)
-        result = cursor.fetchall()
-        if result:
-            for r in result:
-                r["tenant"] = tenant   
-            safe_append_to_csv("generalQueryResultV3.csv", result)
+        results = cursor.fetchall()
+        if results:
+            for result in results:
+                result["tenant"] = tenant
+                cancelled_query = (
+                    f"UPDATE {tenant}.gatepass_invoice SET status = 'CANCELLED' "
+                    f"WHERE id = {result['gatepass_invoice_id']} and no = '{result['invoice_no']}' "
+                    f"and status = '{result['gatepass_status']}';"
+                )
+                result["cancelled_query"] = cancelled_query
+                safe_append_to_csv("invoiceCancelledGatepassCreated.csv", result)
         cursor.close()
         conn.close()
-        print(f"✅ Finished tenant: {tenant} ({len(result)} rows)")
+        print(f"✅ Finished tenant: {tenant} ({len(results)} rows)")
     except Exception as e:
         print(f"❌ Error running query for tenant {tenant}: {e}")
 
@@ -59,5 +68,5 @@ def processAllTenants(tenants, max_workers=10):
 
 
 if __name__ == "__main__":
-    tenants = getAllArsenal()
+    tenants = getAllWarehouse() + getAllArsenal()
     processAllTenants(tenants, max_workers=10)

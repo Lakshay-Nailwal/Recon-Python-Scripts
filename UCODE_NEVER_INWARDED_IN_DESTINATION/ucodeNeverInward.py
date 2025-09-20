@@ -31,14 +31,15 @@ def safe_append_to_csv(filename, row):
 
 def getPurchaseIssuesWhereDCisNotGenerated(tenant):
     SQL_QUERY = f"""
-        SELECT DISTINCT pi.partner_detail_id, LPAD(pii.ucode, 6, '0') as ucode
+        SELECT DISTINCT pi.partner_detail_id, LPAD(pii.ucode, 6, '0') as ucode , pi.id as purchase_issue_id, pi.status
         FROM {tenant}.purchase_issue pi
         JOIN {tenant}.purchase_issue_item pii
             ON pii.purchase_issue_id = pi.id
         WHERE pi.status NOT IN ('cancelled', 'DELETED')
+        AND pi.pr_type <> 'REGULAR_EASYSOL'
         AND pi.partner_detail_id IN ({partner_detail_ids_sql})
         AND (pi.debit_note_number IS NULL OR pi.debit_note_number = '')
-        AND pi.created_on >= '2025-08-26'
+        AND pi.created_on >= '2025-08-01'
     """
     conn = create_db_connection("mercury")
     cursor = conn.cursor()
@@ -51,15 +52,16 @@ def getPurchaseIssuesWhereDCisNotGenerated(tenant):
 
 def getPurchaseIssuesWhereDCisGenerated(tenant):
     SQL_QUERY = f"""
-        SELECT DISTINCT pi.partner_detail_id, LPAD(pii.ucode, 6, '0') as ucode
+        SELECT DISTINCT pi.partner_detail_id, LPAD(pii.ucode, 6, '0') as ucode , pi.id as purchase_issue_id, pi.status , pi.debit_note_number , pi.invoice_sequence_type , pi.pr_type
         FROM {tenant}.purchase_issue pi
         JOIN {tenant}.purchase_issue_item pii
             ON pii.purchase_issue_id = pi.id
         WHERE pi.status NOT IN ('cancelled', 'DELETED')
+        AND pi.pr_type <> 'REGULAR_EASYSOL'
         AND pi.partner_detail_id IN ({partner_detail_ids_sql})
         AND pi.debit_note_number IS NOT NULL
         AND pi.debit_note_number != ''
-        AND pi.created_on >= '2025-08-26'
+        AND pi.invoice_date >= '2025-08-01'
     """
     conn = create_db_connection("mercury")
     cursor = conn.cursor()
@@ -97,45 +99,66 @@ def getInwardInvoices(tenant, ucodes, batch_size=500):
 
 
 def handleUcodeMissingWhenDCisNotGenerated(tenant):
-    purchaseIssues = getPurchaseIssuesWhereDCisNotGenerated(tenant)
-    pdiToUcodeMap = defaultdict(set)
-    for partner_detail_id, ucode in purchaseIssues:
-        pdiToUcodeMap[partner_detail_id].add(ucode)
+    try:
+        purchaseIssues = getPurchaseIssuesWhereDCisNotGenerated(tenant)
+        pdiToUcodeMap = defaultdict(set)
+        ucodeToPRIdAndStatusMap = {}
+        for partner_detail_id, ucode, purchase_issue_id, status,  in purchaseIssues:
+            pdiToUcodeMap[partner_detail_id].add(ucode)
+            ucodeToPRIdAndStatusMap[(ucode , partner_detail_id)] = (purchase_issue_id, status)
 
-    for partner_detail_id, ucodes in pdiToUcodeMap.items():
-        dest_tenant = pdiToTenantMap[str(partner_detail_id)]
-        inwardInvoiceItems = set(getInwardInvoices(dest_tenant, list(ucodes)))
-        for ucode in ucodes:
-            if ucode not in inwardInvoiceItems:
-                print(f"processing tenant: {tenant} , partner_detail_id: {partner_detail_id} , ucode: {ucode} , dest_tenant: {dest_tenant}")
-                safe_append_to_csv(
-                    "ucodeNeverInwardForDCNotGenerated.csv",
-                    {"tenant": tenant,
-                     "partner_detail_id": partner_detail_id,
-                     "ucode": ucode,
-                     "dest_tenant": dest_tenant}
-                )
+        for partner_detail_id, ucodes in pdiToUcodeMap.items():
+            dest_tenant = pdiToTenantMap[str(partner_detail_id)]
+            inwardInvoiceItems = set(getInwardInvoices(dest_tenant, list(ucodes)))
+            for ucode in ucodes:
+                if ucode not in inwardInvoiceItems:
+                    purchase_issue_id, status = ucodeToPRIdAndStatusMap[(ucode , partner_detail_id)]
+                    print(f"processing tenant: {tenant} , partner_detail_id: {partner_detail_id} , ucode: {ucode} , dest_tenant: {dest_tenant}")
+                    safe_append_to_csv(
+                        "ucodeNeverInwardForDCNotGenerated.csv",
+                        {"tenant": tenant,
+                        "partner_detail_id": partner_detail_id,
+                        "ucode": ucode,
+                        "dest_tenant": dest_tenant,
+                        "purchase_issue_id": purchase_issue_id,
+                        "status": status}
+                    )
+    except Exception as e:
+        print(f"Error getting purchase issues for tenant {tenant}: {e}")
+        return
 
 
 def handleUcodeMissingWhenDCisGenerated(tenant):
-    purchaseIssues = getPurchaseIssuesWhereDCisGenerated(tenant)
-    pdiToUcodeMap = defaultdict(set)
-    for partner_detail_id, ucode in purchaseIssues:
-        pdiToUcodeMap[partner_detail_id].add(ucode)
+    try:
+        purchaseIssues = getPurchaseIssuesWhereDCisGenerated(tenant)
+        pdiToUcodeMap = defaultdict(set)
+        ucodeToPRIdAndStatusMap = {}
+        for partner_detail_id, ucode, purchase_issue_id, status, debit_note_number, invoice_sequence_type, pr_type in purchaseIssues:
+            ucodeToPRIdAndStatusMap[(ucode , partner_detail_id)] = (purchase_issue_id, status, debit_note_number, invoice_sequence_type, pr_type)
+            pdiToUcodeMap[partner_detail_id].add(ucode)
 
-    for partner_detail_id, ucodes in pdiToUcodeMap.items():
-        dest_tenant = pdiToTenantMap[str(partner_detail_id)]
-        inwardInvoiceItems = set(getInwardInvoices(dest_tenant, list(ucodes)))
-        for ucode in ucodes:
-            if ucode not in inwardInvoiceItems:
-                print(f"processing tenant: {tenant} , partner_detail_id: {partner_detail_id} , ucode: {ucode} , dest_tenant: {dest_tenant}")
-                safe_append_to_csv(
-                    "ucodeNeverInwardForDCGenerated.csv",
-                    {"tenant": tenant,
-                     "partner_detail_id": partner_detail_id,
-                     "ucode": ucode,
-                     "dest_tenant": dest_tenant}
-                )
+        for partner_detail_id, ucodes in pdiToUcodeMap.items():
+            dest_tenant = pdiToTenantMap[str(partner_detail_id)]
+            inwardInvoiceItems = set(getInwardInvoices(dest_tenant, list(ucodes)))
+            for ucode in ucodes:
+                if ucode not in inwardInvoiceItems:
+                    print(f"processing tenant: {tenant} , partner_detail_id: {partner_detail_id} , ucode: {ucode} , dest_tenant: {dest_tenant}")
+                    purchase_issue_id, status, debit_note_number, invoice_sequence_type, pr_type = ucodeToPRIdAndStatusMap[(ucode , partner_detail_id)]
+                    safe_append_to_csv(
+                        "ucodeNeverInwardForDCGenerated.csv",
+                        {"tenant": tenant,
+                        "partner_detail_id": partner_detail_id,
+                        "ucode": ucode,
+                        "dest_tenant": dest_tenant,
+                        "purchase_issue_id": purchase_issue_id,
+                        "status": status,
+                        "debit_note_number": debit_note_number,
+                        "invoice_sequence_type": invoice_sequence_type,
+                        "pr_type": pr_type}
+                    )
+    except Exception as e:
+        print(f"Error getting purchase issues for tenant {tenant}: {e}")
+        return    
 
 
 def process_tenant(tenant):
@@ -148,7 +171,7 @@ def process_tenant(tenant):
 if __name__ == "__main__":
     tenants = []
     tenants.extend(getAllWarehouse())
-    tenants.extend(getAllArsenal())
+    # tenants.extend(getAllArsenal())
 
     max_workers = 10
 

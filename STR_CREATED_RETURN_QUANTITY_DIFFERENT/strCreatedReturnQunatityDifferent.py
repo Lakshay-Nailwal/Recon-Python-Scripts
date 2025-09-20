@@ -21,6 +21,18 @@ def getTotalQuantityInInwardInvoice(tenant, ucode, batch, invoice_no):
     conn = create_db_connection(tenant)
     try:
         cursor = conn.cursor(pymysql.cursors.DictCursor)
+        CHECK_QUERY = """
+            SELECT COUNT(*) AS total_count
+            FROM inward_invoice ii
+            WHERE ii.invoice_no = %s
+              AND ii.status NOT IN ('CANCELLED', 'DELETED')
+              AND ii.purchase_type IN ('StockTransferReturn', 'ICSReturn')
+        """
+        cursor.execute(CHECK_QUERY, (invoice_no,))
+        row = cursor.fetchone()
+        if row["total_count"] == 0:
+            return None
+
         QUERY = """
             SELECT SUM(iii.quantity) AS total_quantity
             FROM inward_invoice_item iii
@@ -29,6 +41,8 @@ def getTotalQuantityInInwardInvoice(tenant, ucode, batch, invoice_no):
               AND iii.batch = %s
               AND ii.invoice_no = %s
               AND ii.status NOT IN ('CANCELLED', 'DELETED')
+              AND ii.purchase_type IN ('StockTransferReturn', 'ICSReturn')
+              GROUP BY ii.invoice_no
         """
         cursor.execute(QUERY, (ucode, batch, invoice_no))
         row = cursor.fetchone()
@@ -60,6 +74,8 @@ def processPurchaseIssueBatch(batch_purchaseIssues, tenant):
 
         totalQuantityInInwardInvoice = getTotalQuantityInInwardInvoice(dest_tenant, ucode, batch, debit_note_number)
 
+        if totalQuantityInInwardInvoice is None:
+            continue
 
         diff = totalQuantityInInwardInvoice - totalQuantity
 
@@ -100,7 +116,7 @@ def fetchPurchaseIssuesForTenant(tenant, pdis):
               AND pi.debit_note_number != ''
               AND pi.status NOT IN ('cancelled', 'DELETED')
               AND pi.partner_detail_id IN ({placeholders})
-              AND pi.created_on >= '2025-08-30'
+              AND pi.invoice_date >= '2025-08-23'
             GROUP BY pii.ucode, pii.batch, pi.debit_note_number, pi.partner_detail_id
         """
         cursor.execute(query, tuple(pdis))
