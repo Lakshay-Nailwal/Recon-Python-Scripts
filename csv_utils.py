@@ -122,6 +122,19 @@ def append_to_csv(filename, data, headers=None, output_dir=None, needLogs=True):
         print(f"❌ Error appending to CSV file: {e}")
         raise
 
+def delete_csv(filename, output_dir=None):
+    """
+    Delete CSV file.
+    """
+    if output_dir is None:
+        output_dir = OUTPUT_DIRECTORY
+    full_path = os.path.join(output_dir, filename)
+    if not os.path.exists(full_path):
+        print(f"❌ CSV file does not exist: {full_path}")
+        return
+    os.remove(full_path)
+    print(f"✅ CSV file deleted: {full_path}")
+
 
 # Example usage
 if __name__ == "__main__":
