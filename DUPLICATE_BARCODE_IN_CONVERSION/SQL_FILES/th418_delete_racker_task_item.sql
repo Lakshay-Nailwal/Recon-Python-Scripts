@@ -1,0 +1,1 @@
+DELETE FROM th418.racker_task_item WHERE id IN (4738361,4738140);

@@ -11,7 +11,7 @@ from csv_utils import append_to_csv
 from getAllWarehouse import getAllWarehouse
 from getAllArsenal import getAllArsenal
 
-CURRENT_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "CSV_FILES")
+CURRENT_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "CSV_FILES_V3")
 CSV_LOCK = Lock()  # Thread-safe CSV writes
 BATCH_SIZE = 500
 

@@ -28,7 +28,7 @@ def fetchDistinctDebitNoteNumbersWithPdi(tenant, pdis):
             FROM purchase_issue pi
             JOIN purchase_issue_item pii ON pii.purchase_issue_id = pi.id
             WHERE pi.debit_note_number IS NOT NULL
-              AND pi.invoice_date >= '2025-05-28'
+              AND pi.invoice_date >= '2025-10-01'
               AND pi.pr_type <> 'REGULAR_EASYSOL'
               AND pi.partner_detail_id IN ({placeholders})
               AND pi.status NOT IN ('cancelled', 'DELETED')
@@ -60,7 +60,6 @@ def fetchDCForTenant(tenant, listOfDcs, batch_size=500):
                 SELECT DISTINCT ii.invoice_no
                 FROM inward_invoice ii
                 WHERE ii.invoice_no IN ({placeholders})
-                  AND ii.status NOT IN ('CANCELLED', 'DELETED')
             """
             cursor.execute(query, batch)
             results.extend(cursor.fetchall())
@@ -71,6 +70,11 @@ def fetchDCForTenant(tenant, listOfDcs, batch_size=500):
         print(f"Error fetching DC for tenant {tenant}: {e}")
         return []
 
+def checkDigest(tenant, debit_note_number):
+    conn = create_db_connection(tenant)
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
+    cursor.execute("SELECT * FROM mercury.idempotent_digest WHERE metadata = %s", (debit_note_number + " + " + tenant,))
+    return cursor.fetchone()
 
 def processTenant(tenant):
     print(f"Processing tenant: {tenant}")
@@ -91,11 +95,22 @@ def processTenant(tenant):
 
         for dc in dc_list:
             if dc not in destDCNumbers:
+                digest = checkDigest(tenant, dc)
+                if digest:
+                    deleteDigestQuery = f"DELETE FROM mercury.idempotent_digest WHERE id = '{digest['id']}';"
+                    digest["deleteDigestQuery"] = deleteDigestQuery
                 with csv_lock:  # ✅ thread-safe CSV write
                     append_to_csv(
-                        "dcCreatedStrNotCreated.csv",
+                        "dcCreatedStrNotCreatedV5.csv",
                         {"source_debit_note_number": dc, "dest_tenant": dest_tenant, "source_tenant": tenant}
                     ,None, CURRENT_DIRECTORY, False)
+                
+                if(digest):
+                    with csv_lock:
+                        append_to_csv(
+                            "digestBackUpAndDeleteQueryV5.csv",
+                            digest
+                        ,None, CURRENT_DIRECTORY, False)
     return tenant
 
 def fetchDCForAllTenants(tenants, max_workers=10):
@@ -113,4 +128,4 @@ if __name__ == "__main__":
     theas = getAllWarehouse()
     arsenals = getAllArsenal()
     all_tenants = theas + arsenals
-    fetchDCForAllTenants(all_tenants, max_workers=10)
+    fetchDCForAllTenants(all_tenants, max_workers=5)
