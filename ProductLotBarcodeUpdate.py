@@ -13,21 +13,21 @@ from csv_utils import append_to_csv
 from getAllWarehouse import getAllWarehouse
 from getAllArsenal import getAllArsenal
 from whid import whid
-
 # === CONFIG ===
 CURRENT_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "CSV_FILES")
 CSV_LOCK = Lock()
-MAX_WORKERS = 10
-CSV_FILENAME = "product_lot_barcode_update_v8.csv"
+MAX_WORKERS = 3
+CSV_FILENAME = "product_lot_barcode_update_v11.csv"
 
 # === SQL ===
 SQL_QUERY = """
-    SELECT vti.bar_code 
-    FROM verifier_task vt 
-    JOIN verifier_task_item vti ON vti.verifier_task_id = vt.id
-    WHERE vt.reference_type = 'CONVERSION_TASK'
-      AND vt.created_on >= "2025-11-03"
-      AND vt.created_on <= "2025-11-06"
+    SELECT rti.bar_code 
+    FROM racker_task rt 
+    JOIN racker_task_item rti ON rti.racker_task_id = rt.id
+    WHERE rt.reference_type = 'CONVERSION_TASK'
+      AND rt.created_on >= "2025-11-02"
+      AND rt.created_on <= "2025-11-08"
+
 """
 
 # === HELPERS ===
@@ -154,7 +154,7 @@ def processAllTenants(tenants, max_workers=MAX_WORKERS):
 
 # === ENTRY POINT ===
 if __name__ == "__main__":
-    tenants = ["th224"]
+    tenants = ["th214" , "th224" , "th427" , "th429" , "th435" , "th411" , "th402" , "th205"]
     start_time = datetime.now() - timedelta(hours=20)
     print(f"\n📦 Fetching data for last 20 hours (since {start_time.strftime('%Y-%m-%d %H:%M:%S')})")
     print(f"Processing {len(tenants)} tenants with {MAX_WORKERS} threads...\n")

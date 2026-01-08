@@ -13,9 +13,28 @@ from getAllArsenal import getAllArsenal
 
 CURRENT_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "CSV_FILES")
 CSV_LOCK = Lock()  # Thread-safe CSV writes
+BATCH_SIZE = 500
 
 SQL_QUERY = """
-select * from inward_invoice where invoice_no = '383CN1R22501270';
+SELECT ari.ucode,
+       ari.batch,
+       ari.all_return_order_id,
+       ii.id as invoice_id,
+       ii.status as invoice_status
+FROM all_return_item ari
+JOIN all_return_order aro
+    ON aro.id = ari.all_return_order_id
+JOIN inward_invoice ii
+    ON ii.invoice_no = CONCAT(ari.all_return_order_id, '-SR') AND purchase_type = 'SALES_RETURN'
+LEFT JOIN inward_invoice_item iii
+    ON iii.invoice_id = ii.id
+   AND iii.code = ari.ucode
+   AND iii.batch = ari.batch
+WHERE aro.updated_on >= '2025-11-19'
+  AND aro.updated_on <=  '2025-11-27'
+  AND ari.status = 'ACCEPTED'
+  AND ari.barcode IS NULL
+  AND iii.id IS NULL;
 """
 
 def safe_append_to_csv(filename, rows):
@@ -24,29 +43,30 @@ def safe_append_to_csv(filename, rows):
         append_to_csv(filename, rows, output_dir=CURRENT_DIRECTORY)
 
 
-def runQuery(tenant):
+def process_tenant(tenant):
     """Run SQL query for a tenant and save results"""
     try:
-        print(f"🔹 Running query for tenant: {tenant}")
-        conn = create_db_connection(tenant)
-        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        connection = create_db_connection(tenant)
+        cursor = connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute(SQL_QUERY)
         result = cursor.fetchall()
-        if result:
-            for r in result:
-                r["tenant"] = tenant   
-            safe_append_to_csv("383CN1R22501270.csv", result)
         cursor.close()
-        conn.close()
-        print(f"✅ Finished tenant: {tenant} ({len(result)} rows)")
+        connection.close()
+
+        if len(result) == 0:
+            return
+
+        for row in result:
+            row["tenant"] = tenant
+        safe_append_to_csv("srEmptyInwardInvoiceItems_v8.csv", result)
     except Exception as e:
         print(f"❌ Error running query for tenant {tenant}: {e}")
 
 
-def processAllTenants(tenants, max_workers=5):
+def processAllTenants(tenants, max_workers=10):
     """Run query for all tenants concurrently"""
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = {executor.submit(runQuery, tenant): tenant for tenant in tenants}
+        futures = {executor.submit(process_tenant, tenant): tenant for tenant in tenants}
         for future in as_completed(futures):
             tenant = futures[future]
             try:
@@ -56,5 +76,5 @@ def processAllTenants(tenants, max_workers=5):
 
 
 if __name__ == "__main__":
-    tenants = getAllArsenal() + getAllWarehouse()
+    tenants = getAllWarehouse()
     processAllTenants(tenants, max_workers=10)

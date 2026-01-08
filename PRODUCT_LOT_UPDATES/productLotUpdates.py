@@ -3,11 +3,10 @@ import os
 import pymysql
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from threading import Lock
+import csv
 
 # --- Imports from your project ---
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from getDBConnection import create_db_connection
-from csv_utils import append_to_csv
 
 # --- Constants ---
 CURRENT_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "CSV_FILES")
@@ -16,6 +15,20 @@ CSV_PRODUCT_LOT_BACKUP = "product_lot_updates_backup.csv"
 CSV_PRODUCT_INVENTORY_BACKUP = "product_inventory_updates_backup.csv"
 MAX_WORKERS = 10
 
+
+
+def create_db_connection(db_name):
+    try:
+        return pymysql.connect(
+            host="mercury-prod-replica.crbaj2am3zwb.ap-south-1.rds.amazonaws.com",
+            user="dyno_lakshay_nailwal1_pe_hockc",
+            password="tA03EwJf2AUTFNA3",
+            port=3306,
+            database=db_name
+        )
+    except Exception as e:
+        print(f"Error connecting to database: {e}")
+        raise
 # --- SQL Query ---
 SQL_QUERY = """
 WITH ranked AS (
@@ -26,14 +39,15 @@ WITH ranked AS (
       iii.mrp,
       ROW_NUMBER() OVER (
           PARTITION BY iii.code, iii.batch 
-          ORDER BY iii.id DESC
+          ORDER BY ii.updated_on DESC
       ) AS rn
   FROM inward_invoice ii
   JOIN inward_invoice_item iii ON iii.invoice_id = ii.id
   WHERE ii.status = 'live'
-    AND ii.comment = 'easysol migration'
+    AND ii.comment != 'easysol migration'
     AND iii.total_tax = 0.00
-    AND ii.created_on >= '2025-01-01'
+    AND ii.created_on >= '2025-10-12'
+    AND ii.purchase_type in ('PROCUREMENT' , 'JIT')
 )
 SELECT 
     id AS inward_invoice_item_id,
@@ -41,9 +55,75 @@ SELECT
     batch,
     mrp
 FROM ranked
-WHERE rn = 1
-limit 1;
+WHERE rn = 1;
 """
+
+def append_to_csv(filename, data, headers=None, output_dir=None, needLogs=True):
+    """
+    Append row(s) to CSV file.
+    Supports both list of dicts and list of lists/tuples.
+    Auto-picks headers if not provided.
+    """
+    if output_dir is None:
+        output_dir = CURRENT_DIRECTORY
+
+    os.makedirs(output_dir, exist_ok=True)
+    full_path = os.path.join(output_dir, filename)
+    file_exists = os.path.isfile(full_path)
+
+    # Normalize data into list form
+    if isinstance(data, dict):
+        data = [data]
+    elif isinstance(data, (list, tuple)) and data and isinstance(data[0], (str, int, float)):
+        # single row like ["a", "b", "c"]
+        data = [list(data)]
+
+    try:
+        with open(full_path, 'a', newline='', encoding='utf-8') as csvfile:
+            if isinstance(data, list) and data and isinstance(data[0], dict):
+                # Auto-pick headers from dict keys
+                if headers is None:
+                    headers = list(data[0].keys())
+
+                sanitized_data = [
+                    {k: v for k, v in row.items() if k.strip() != ''}
+                    for row in data
+                ]
+
+                writer = csv.DictWriter(csvfile, fieldnames=headers)
+
+                # If file does not exist, write headers first
+                if not file_exists:
+                    writer.writeheader()
+
+                writer.writerows(sanitized_data)
+
+            else:
+                # Handle list of lists/tuples
+                if headers is None and data:
+                    headers = [f"col{i+1}" for i in range(len(data[0]))]
+
+                writer = csv.writer(csvfile)
+
+                # If file does not exist, write headers first
+                if not file_exists and headers:
+                    writer.writerow(headers)
+
+                if data and isinstance(data[0], (list, tuple)):
+                    writer.writerows(data)   # multiple rows
+                else:
+                    writer.writerow(data)    # single row
+
+        if needLogs:
+            print(f"✅ Data appended to: {full_path}")
+            rows_added = len(data) if isinstance(data, list) else 1
+            print(f"Rows appended: {rows_added}")
+
+        return full_path
+
+    except Exception as e:
+        print(f"❌ Error appending to CSV file: {e}")
+        raise
 
 # --- Thread-safe CSV append ---
 def safe_append_to_csv(filename, rows):

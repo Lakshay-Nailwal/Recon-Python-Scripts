@@ -13,9 +13,11 @@ from getAllArsenal import getAllArsenal
 
 CURRENT_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "CSV_FILES")
 CSV_LOCK = Lock()  # Thread-safe CSV writes
+BATCH_SIZE = 500
 
 SQL_QUERY = """
-select * from inward_invoice where invoice_no = '383CN1R22501270';
+    SELECT distinct partner_detail_id FROM purchase_issue
+    where created_on >= '2025-04-01';
 """
 
 def safe_append_to_csv(filename, rows):
@@ -23,30 +25,24 @@ def safe_append_to_csv(filename, rows):
     with CSV_LOCK:
         append_to_csv(filename, rows, output_dir=CURRENT_DIRECTORY)
 
-
-def runQuery(tenant):
+def process_tenant(tenant):
     """Run SQL query for a tenant and save results"""
     try:
-        print(f"🔹 Running query for tenant: {tenant}")
         conn = create_db_connection(tenant)
         cursor = conn.cursor(pymysql.cursors.DictCursor)
         cursor.execute(SQL_QUERY)
-        result = cursor.fetchall()
-        if result:
-            for r in result:
-                r["tenant"] = tenant   
-            safe_append_to_csv("383CN1R22501270.csv", result)
-        cursor.close()
-        conn.close()
-        print(f"✅ Finished tenant: {tenant} ({len(result)} rows)")
+        partner_details = cursor.fetchall()
+        for partner_detail in partner_details:
+            safe_append_to_csv(f"pdis.csv", [tenant , partner_detail['partner_detail_id']])
     except Exception as e:
-        print(f"❌ Error running query for tenant {tenant}: {e}")
+        print(f"❌ Exception in tenant {tenant}: {e}")
 
 
-def processAllTenants(tenants, max_workers=5):
+
+def processAllTenants(tenants, max_workers=10):
     """Run query for all tenants concurrently"""
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = {executor.submit(runQuery, tenant): tenant for tenant in tenants}
+        futures = {executor.submit(process_tenant, tenant): tenant for tenant in tenants}
         for future in as_completed(futures):
             tenant = futures[future]
             try:
@@ -56,5 +52,5 @@ def processAllTenants(tenants, max_workers=5):
 
 
 if __name__ == "__main__":
-    tenants = getAllArsenal() + getAllWarehouse()
+    tenants = getAllWarehouse()
     processAllTenants(tenants, max_workers=10)

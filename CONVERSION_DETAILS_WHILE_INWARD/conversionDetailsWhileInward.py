@@ -13,10 +13,7 @@ from getAllArsenal import getAllArsenal
 
 CURRENT_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "CSV_FILES")
 CSV_LOCK = Lock()  # Thread-safe CSV writes
-
-SQL_QUERY = """
-select * from inward_invoice where invoice_no = '383CN1R22501270';
-"""
+BATCH_SIZE = 500
 
 def safe_append_to_csv(filename, rows):
     """Thread-safe CSV append"""
@@ -24,29 +21,38 @@ def safe_append_to_csv(filename, rows):
         append_to_csv(filename, rows, output_dir=CURRENT_DIRECTORY)
 
 
-def runQuery(tenant):
+SQL_QUERY = """
+    select ct.id as conversion_task_id ,ct.reference_id , ct.reference_type , ct.status , ct.created_on , ct.tray_id , count(cti.id) as total_item , sum(cti.qty_per_case) as net_quantity from conversion_task ct join conversion_task_item_v2 cti on cti.conversion_task_id = ct.id where ct.reference_type like '%_ISSUE' and ct.status <> 'CANCELLED'
+    and ct.created_on >= NOW() - INTERVAL 30 DAY
+group by ct.id
+"""
+
+def process_tenant(tenant):
     """Run SQL query for a tenant and save results"""
     try:
-        print(f"🔹 Running query for tenant: {tenant}")
         conn = create_db_connection(tenant)
         cursor = conn.cursor(pymysql.cursors.DictCursor)
         cursor.execute(SQL_QUERY)
-        result = cursor.fetchall()
-        if result:
-            for r in result:
-                r["tenant"] = tenant   
-            safe_append_to_csv("383CN1R22501270.csv", result)
+        results = cursor.fetchall()
         cursor.close()
         conn.close()
-        print(f"✅ Finished tenant: {tenant} ({len(result)} rows)")
+
+        if(len(results) == 0):
+            return
+
+        for result in results:
+            result["tenant"] = tenant
+        safe_append_to_csv("conversionDetailsWhileInward_v2.csv", results)
+
+        print(f"✅ Found {len(results)} rows for tenant {tenant}")
     except Exception as e:
         print(f"❌ Error running query for tenant {tenant}: {e}")
 
 
-def processAllTenants(tenants, max_workers=5):
+def processAllTenants(tenants, max_workers=10):
     """Run query for all tenants concurrently"""
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = {executor.submit(runQuery, tenant): tenant for tenant in tenants}
+        futures = {executor.submit(process_tenant, tenant): tenant for tenant in tenants}
         for future in as_completed(futures):
             tenant = futures[future]
             try:
@@ -56,5 +62,5 @@ def processAllTenants(tenants, max_workers=5):
 
 
 if __name__ == "__main__":
-    tenants = getAllArsenal() + getAllWarehouse()
+    tenants = getAllWarehouse()
     processAllTenants(tenants, max_workers=10)

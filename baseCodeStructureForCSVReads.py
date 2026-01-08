@@ -22,11 +22,11 @@ def safe_append_to_csv(filename, rows):
     with CSV_LOCK:
         append_to_csv(filename, rows, output_dir=CURRENT_DIRECTORY)
 
- def process_row(row):
-        try:
-            pass
-        except Exception as e:
-            print(f"❌ Error processing row {row}: {e}")
+def process_row(row):
+    try:
+        pass
+    except Exception as e:
+        print(f"❌ Error processing row {row}: {e}")
 
 def process_csv_parallel(filename, max_workers=10):
     """Process CSV rows in parallel"""

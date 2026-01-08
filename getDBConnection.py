@@ -5,12 +5,12 @@ import json
 
 load_dotenv('config.env')
 
-def create_db_connection(db_name):
+def create_db_connection(db_name , db_config_name=None):
     try:
         
-        DB_NAME = str(db_name).upper()
+        DB_NAME_CONFIG = str(db_name).upper() if db_config_name is None else str(db_config_name).upper()
         config_dict = {}
-        config_dict = json.loads(os.getenv(f"{DB_NAME}_DB_CONFIG", "{}"))
+        config_dict = json.loads(os.getenv(f"{DB_NAME_CONFIG}_DB_CONFIG", "{}"))
         if config_dict == {}:
             config_dict = json.loads(os.getenv(f"MERCURY_DB_CONFIG", "{}"))
             

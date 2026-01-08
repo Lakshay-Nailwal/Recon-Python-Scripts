@@ -1,0 +1,870 @@
+{
+	"data":
+	[
+		{
+			"id": 15,
+			"name": "SHREE SIMBA CHEMIST - MUMBAI (AWSPL)",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 49,
+			"name": "MOHAR MEDICAL AGENCIES",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 61,
+			"name": "EASTERN AGENCIES HEALTHCARE PRIVATE LIMITED",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 66,
+			"name": "DESAI PHARMA DISTRIBUTORS PVT.LTD.(DB)",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 72,
+			"name": "B.A & BROTHERS PHARMA LLP",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 231,
+			"name": "TANIA PHARMACEUTICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 266,
+			"name": "MAA MEDICAL AGENCY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 274,
+			"name": "KALPANA MEDICAL STORES",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 277,
+			"name": "JAIN DISTRIBUTORS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 282,
+			"name": "GITA MEDICAL STORE",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 286,
+			"name": "DUTTA DISTRIBUTORS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 298,
+			"name": "BALAJI ENTERPRISES",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 299,
+			"name": "AURO PHARMACEUTICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 300,
+			"name": "AURO ENTERPRISE",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 381,
+			"name": "NU SRI SHYAM PHARMACEUTICALS PVT LTD",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 425,
+			"name": "JALARAM PHARMA",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 465,
+			"name": "B. L. DISTRIBUTORS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 1249,
+			"name": "PALANI MEDICAL AGENCIES",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 1261,
+			"name": "MUTHU PHARMA PVT LTD - CHENNAI - OLD",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 1708,
+			"name": "MUTHU PHARMA PRIVATE LIMITED",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 2072,
+			"name": "SREE KRISHNA PHARMACEUTICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 2436,
+			"name": "SRI LAKSHMI ENTERPRISES",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 2775,
+			"name": "ARAVALI MEDICAL STORE",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 3566,
+			"name": "SHREE SIMBA CHEMIST - MUMBAI (AWSPL)",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 3580,
+			"name": "AKSHAYA MEDICAL AND SURGICAL AGENCIES(B2B)",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 3713,
+			"name": "GREEN APPLE EXIM PRIVATE LIMITED (BOM05) (MIRA ROAD)",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 4039,
+			"name": "A K PHARMA(DAVANGERE)",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 8038,
+			"name": "MODERN MEDICOS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 8060,
+			"name": "RAIKAMAL MEDICAL HALL",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 8107,
+			"name": "Maa Ambika Chemist",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-MarketPlace"
+		},
+		{
+			"id": 8114,
+			"name": "S. R. PHARMACY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 8124,
+			"name": "VIJAYA LAXMI MEDICAL AND GENERAL STORES",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 8126,
+			"name": "MEDILAND",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 8247,
+			"name": "CENTRAL PHARMACY/KASTURBA NAGAR",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 8286,
+			"name": "DAMODAR PHARMACY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 8306,
+			"name": "Sherla Medical",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-MarketPlace"
+		},
+		{
+			"id": 8312,
+			"name": "Rana Pharma and Surgicals",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-MarketPlace"
+		},
+		{
+			"id": 8414,
+			"name": "BAITARANI MEDICAL HALL",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 8474,
+			"name": "CHOWDHURY PHARMACY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 8477,
+			"name": "SPANDAN",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 8494,
+			"name": "B. BOSE & CO.",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 8525,
+			"name": "New City Medical Stores",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-MarketPlace"
+		},
+		{
+			"id": 8526,
+			"name": "Rahul Medicos",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-MarketPlace"
+		},
+		{
+			"id": 8591,
+			"name": "ARIHANT MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 8592,
+			"name": "OM SAI MEDICAL",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 8596,
+			"name": "ABHISHEK MEDICAL HALL",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 8600,
+			"name": "SAI BABA MEDICALS AND GENERAL STORES",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 8601,
+			"name": "SRI BALAJI MEDICAL AND GENERAL STORES",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 8617,
+			"name": "Arogya Pharmacy",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-MarketPlace"
+		},
+		{
+			"id": 8660,
+			"name": "Medisure",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-MarketPlace"
+		},
+		{
+			"id": 10116,
+			"name": "Bhavani Medical",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 10801,
+			"name": "ANUKAR PHARMACY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 13653,
+			"name": "KRUTISHIL DISTRIBUTORS PRIVATE LIMITED",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 17297,
+			"name": "NEW RAJSHREE MEDICAL CENTRE",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 18135,
+			"name": "KASTOORI MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 18678,
+			"name": "SENTHIL MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 19151,
+			"name": "ALKA THE MEDICINE SHOP LVHR",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 19377,
+			"name": "SARVESH CHEMIST PALAM VIHAR",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 19760,
+			"name": "SUMIT MEDICAL STORE",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 19761,
+			"name": "BAJAJ MEDICAL STORE",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 19769,
+			"name": "LAKSHYA ENTERPRISES",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 19815,
+			"name": "ARORA MEDICAL HALL",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 21844,
+			"name": "CHATURBHUJ MEDICAL STORE",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 22233,
+			"name": "ASTERIX INTERNATIONAL( MEDICAL)",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 22932,
+			"name": "CORRAL BIOLOGICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 22943,
+			"name": "R S MEDICOS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 22956,
+			"name": "EMRICK PHARMACY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 23179,
+			"name": "CHILD CARE PHARMACY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 23408,
+			"name": "BIPASHA MEDICAL & PROV STORE",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 25553,
+			"name": "V CARE MEDICAL & GENERAL STORES",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 25876,
+			"name": "LIMRA PHARMACEUTICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 25895,
+			"name": "ROYAL MEDICAL",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 26080,
+			"name": "DARSHAN CHEMIST.",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 26935,
+			"name": "RANE`S MEDICAL CENTRE",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 27249,
+			"name": "R.K. MEDICAL & GENERAL STORE",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 28441,
+			"name": "METRO MEDICO AND SUPER MARKET",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 30001,
+			"name": "AKNA MEDICAL PRIVATE LIMITED",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 30242,
+			"name": "AKNA MEDICAL PRIVATE LIMITED",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 32128,
+			"name": "M/S GREEN CITY PHARMACY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 33248,
+			"name": "BANSAL MEDICAL STORE",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 35844,
+			"name": "ASHIRWAD DISTRIBUTORS, RAIPUR",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 36084,
+			"name": "VPI MEDISALES -A UNIT OF AWPSPL",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 36090,
+			"name": "DESAI PHARMA (A UNIT OF AWPSPL) - MUMBAI",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 36619,
+			"name": "VANI MEDICAL AGENCIES (A UNIT OF AUSHAD PHARMA DIS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 36663,
+			"name": "MUTHU PHARMA (A UNIT OF AWPSPL) - CHENNAI",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 37527,
+			"name": "THREPSI SOLUTIONS PVT. LTD.",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 37910,
+			"name": " GEETA LABORATORIES PVT LTD / MODERN TRADE SOLUTIONS DIV GEETA LAB P L",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 47049,
+			"name": "M.K. MEDICAL STORES",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 60319,
+			"name": "PHARM LIFE",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 61486,
+			"name": "DISCOUNT PHARMACY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 86445,
+			"name": "RAJAN MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 86456,
+			"name": "RAJAN MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 88385,
+			"name": "ROYAL MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 88745,
+			"name": "SRI SABARI MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 89073,
+			"name": "RAJAN MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 89158,
+			"name": "LAKSHMI MEDICALS (B)",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 89664,
+			"name": "SENBAGAM MEDICAL",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 89782,
+			"name": "VELAN MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 89804,
+			"name": "RAJA MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 89828,
+			"name": "SRI SUKI PHARMA AND SURGICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 93236,
+			"name": "CHAUDHARY MEDICOS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 96575,
+			"name": "METRO MEDICOS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 96821,
+			"name": "NEELKANTH PHARMACY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 97759,
+			"name": "RAHUL MEDICAL STORE",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 98071,
+			"name": "ROYAL PHARMACY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 99856,
+			"name": "VASHISTH MEDICOS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 101836,
+			"name": "ARUNA MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 102155,
+			"name": "CITY MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 102842,
+			"name": "GIRISH PHARMACY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 103103,
+			"name": "JAYA MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 103120,
+			"name": "J K PHARMACY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 103851,
+			"name": "MRS MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 104361,
+			"name": "PMBJK MAKKAL MARUNDHAGAM",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 105091,
+			"name": "SHARWIN PHARMACY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 106182,
+			"name": "SUBHIKSHA MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 106257,
+			"name": "SUBRAMANI MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 107109,
+			"name": "JAN AUSHADHI SANGH",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 107221,
+			"name": "SRI MOHAN MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 107309,
+			"name": "1ST DOZE PHARMACY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 108885,
+			"name": "HEALTH PLUS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 109287,
+			"name": "MOHAMMEDIA MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 110325,
+			"name": "ANNA MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 110332,
+			"name": "THE CAPSTONE CLINIC",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 110518,
+			"name": "VVS PHARMACY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 114163,
+			"name": "MUTHU PHARMACY PVT LTD (HEALTH CENTER)",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 120110,
+			"name": "SRI AMMAN MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 120624,
+			"name": "ANANDI PHARMA",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 125948,
+			"name": "D K MEDICAL STORE",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 125955,
+			"name": "SUHANA MEDICOSE ISLAMPUR GURUGRAM",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 126151,
+			"name": "RAO PHARMACY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 126505,
+			"name": "WELLGIO MEDICOS SEC39",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 126622,
+			"name": "BHAVIKA MEDICOSE KHANDSA ROAD",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 127784,
+			"name": "BALAJI MEDICAL STORE RITHOJ",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 133777,
+			"name": "JIYA MAA MEDICAL HALL SANJAY COLONY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 133925,
+			"name": "GOYAL CHEMISTSSUPERMARTI",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 137652,
+			"name": "KRISHNA PHARMACY SEC79",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 142190,
+			"name": "ARIHANT MEDICOS PROVISION STORE JODHPUR",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 148638,
+			"name": "SRI AMUDHA MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 163330,
+			"name": "BHARAT MEDICAL & GEN STORES",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 165138,
+			"name": "NATIONAL CHEMIST",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 165329,
+			"name": "NSK CHEMIST",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 165337,
+			"name": "OM MEDICAL GEN STORES",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 165618,
+			"name": "REGAL CHEMIST",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 166244,
+			"name": "SUDARSHAN MEDICAL AND GENERAL STORES",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 166495,
+			"name": "YOGESHWARI MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 166989,
+			"name": "NEW TIRUPATI PHARMACY SHANKAR VIHAR",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 167165,
+			"name": "A.K.PHARMACY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 167339,
+			"name": "SHASTRI MEDICAL STORES",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 167532,
+			"name": "LIFE LINE CHEMIST GENERAL STORES",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 173545,
+			"name": "VENKATESWARA MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 173887,
+			"name": "SHREE BALA JI MEDICOS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 181847,
+			"name": "UNI PHARMA",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 182859,
+			"name": "MOHAN MEDICURE",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 186200,
+			"name": "NAVJEEVAN MEDICAL GENERAL STO13356",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 186889,
+			"name": "THREPSI SOLUTIONS PVT LTD (EXPIRY)",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 192168,
+			"name": "ARYAN PHARMACY",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 193783,
+			"name": "SHREE DURGA TRADING CO (DAILY)",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 193852,
+			"name": "DOORBELL PHARMACY (NEPEANSEA ROAD)",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 193886,
+			"name": "HAYAAT CHEMIST",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 194005,
+			"name": "RACHANA MED.& GEN.ST.",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 194189,
+			"name": "EASTERN AGENCIES HEALTHCARE PVT LTD- WH-MIGRATION",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 194465,
+			"name": "Credit Note Benefits - Central",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 199913,
+			"name": "GANESH NAGAR MEDICAL AND GENERAL STORE",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 200382,
+			"name": "MAHALAXMI CHEMIST AND DRUGGIST",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 202958,
+			"name": "SHUBHAM CHEMIST",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 203825,
+			"name": "RAHUL CHEMIST",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 205988,
+			"name": "SHREE BALAJI CHEMIST-SION EAST| MUMBAI",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 206526,
+			"name": "OM VINAYAGA  MEDICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 208253,
+			"name": "VIGHNAHARTA MEDICAL",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 208301,
+			"name": "SRI CHETAN MEDICAL WHOLESALE, RETAIL SURGICALS",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 209597,
+			"name": "SALES RETURN AUDIT",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 215943,
+			"name": "SRADDHA PHARMA",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		},
+		{
+			"id": 216949,
+			"name": "GREAT SANDS CONSULTING PRIVATE LIMITED",
+			"GROUP_CONCAT( distinct pft.type )": "Retailer-B2B"
+		}
+	]
+}

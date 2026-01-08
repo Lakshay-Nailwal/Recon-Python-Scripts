@@ -114,40 +114,11 @@ def process_row(row):
         print(f"🔍 {tenant} | Task {rackerTaskId} | Ucode {ucode} | Batch {batch} | Bin {binId}")
 
         Barcodes = fetchBarcodes(tenant, rackerTaskId, ucode, batch, binId)
+        print(f"✅ {tenant} | Task {rackerTaskId} | Found Barcodes: {len(Barcodes)}")
         if not Barcodes:
-            print(f"⚠️ No racker_task_item rows for {tenant} | task {rackerTaskId}")
-            return
-
-        barcodeToIDMap = defaultdict(list)
-        for b in Barcodes:
-            barcodeToIDMap[b["bar_code"]].append(b["id"])
-
-        duplicateBarcodes = checkForDuplicateBarcodes(Barcodes, tenant)
-        print(f"✅ {tenant} | Task {rackerTaskId} | Found duplicates: {len(duplicateBarcodes)}")
-
-        if not duplicateBarcodes:
-            return
-
-        enriched_rows, found_item_ids = [], []
-        for db in duplicateBarcodes:
-            barcode = db["barcode"]
-            item_ids = barcodeToIDMap.get(barcode, [])
-            joined_ids = ",".join(map(str, item_ids)) if item_ids else ""
-            enriched_rows.append({
-                "barcode": barcode,
-                "racker_task_item_ids": joined_ids,
-                "racker_task_id": rackerTaskId,
-                "ucode": ucode,
-                "batch": batch,
-                "bin_id": binId
-            })
-            found_item_ids.extend(item_ids)
-
-        safe_append_to_csv(f"{tenant}_duplicate_barcode_analysis.csv", enriched_rows)
-
-        if found_item_ids:
-            with MAP_LOCK:
-                tenantToRackerItemIdMap.setdefault(tenant, []).extend(found_item_ids)
+            row["empty_racker_task"] = "Yes"
+            row["complete_query"] = f"Update worker_job set status = 'COMPLETED' , updated_on = NOW() where id = {row_id} and status = 'FAILED';"
+            safe_append_to_csv(f"empty_racker_task.csv", [row])
 
     except Exception as e:
         print(f"❌ Error processing row {row}: {e}")
@@ -167,42 +138,8 @@ def process_csv_parallel(filename, max_workers=MAX_WORKERS):
             except Exception as e:
                 print(f"❌ Worker exception: {e}")
 
-
-def backup_racker_task_items(tenant, chunk):
-    conn = create_db_connection(tenant)
-    cursor = conn.cursor(pymysql.cursors.DictCursor)
-    placeholders = ",".join(["%s"] * len(chunk))
-    SQL_QUERY = f"SELECT * FROM racker_task_item WHERE id IN ({placeholders})"
-    cursor.execute(SQL_QUERY, chunk)
-    rows = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    if rows:
-        safe_append_to_csv(f"{tenant}_racker_task_item_backup.csv", rows, output_dir=CURRENT_DIRECTORY_FOR_BACKUP)
-
-
 if __name__ == "__main__":
     start_time = datetime.now()
     filename = "/Users/lakshay.nailwal/Desktop/ReconScripts/DUPLICATE_BARCODE_IN_CONVERSION/CSV_FILES_V3/query_result.csv"
 
     process_csv_parallel(filename)
-
-    print("\n🧾 Generating tenant-wise delete SQL files and backups...")
-    for tenant, item_ids in tenantToRackerItemIdMap.items():
-        unique_ids = list(set(item_ids))
-        if not unique_ids:
-            continue
-
-        for i in range(0, len(unique_ids), 3000):
-            chunk = unique_ids[i:i + 3000]
-            query = f"DELETE FROM {tenant}.racker_task_item WHERE id IN ({','.join(map(str, chunk))});"
-            safe_append_to_sql(f"{tenant}_delete_racker_task_item.sql", [query])
-
-        for i in range(0, len(unique_ids), 100):
-            chunk = unique_ids[i:i + 100]
-            backup_racker_task_items(tenant, chunk)
-
-        print(f"🗑️  {tenant} | Delete SQL + Backup generated for {len(unique_ids)} items")
-
-    duration = (datetime.now() - start_time).total_seconds()
-    print(f"\n✅ Done in {duration:.2f}s. Output folder: {CURRENT_DIRECTORY}")
